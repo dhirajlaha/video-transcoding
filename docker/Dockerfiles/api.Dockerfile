@@ -1,11 +1,13 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm
+FROM python:3.12-bookworm
 
 WORKDIR /app
-COPY pyproject.toml README.md ./
+RUN pip install --no-cache-dir uv
+
+COPY pyproject.toml uv.lock README.md ./
 COPY apps ./apps
 COPY backend ./backend
 
-RUN uv sync --no-dev
+RUN uv sync --no-dev --frozen
 
 EXPOSE 8000
-CMD ["uv", "run", "uvicorn", "apps.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "--no-dev", "uvicorn", "apps.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
