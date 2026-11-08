@@ -39,6 +39,24 @@ uv run ruff format --check .
 uv run mypy .
 ```
 
+## Transcoder
+
+Ensure FFmpeg is installed locally and background services (PostgreSQL, RabbitMQ, MinIO) are running (e.g. via `make infra-up` or `docker compose -f docker/compose.yaml up -d postgres rabbitmq minio`).
+
+Run the transcoder worker locally:
+
+```bash
+uv run python -m apps.worker.main
+# or
+make worker
+```
+
+Alternatively, run the worker in Docker Compose:
+
+```bash
+docker compose -f docker/compose.yaml up --build worker
+```
+
 ## Frontend
 
 ```bash
